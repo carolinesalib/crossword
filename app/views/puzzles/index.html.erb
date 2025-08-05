@@ -1,0 +1,66 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        Rails Crossword Puzzles
+      </h1>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Test your Rails knowledge with these interactive crossword puzzles.
+        Each puzzle focuses on different aspects of Ruby on Rails development.
+      </p>
+    </div>
+
+    <!-- Puzzles Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <% @puzzles.each do |puzzle| %>
+        <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+          <div class="p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-xl font-semibold text-gray-900">
+                <%= puzzle.title %>
+              </h3>
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                <%= pluralize(puzzle.clues.count, 'clue') %>
+              </span>
+            </div>
+
+            <p class="text-gray-600 mb-4 line-clamp-3">
+              <%= puzzle.description %>
+            </p>
+
+            <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+              <span class="flex items-center">
+                <svg class="w-4 h-4 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                </svg>
+                <%= puzzle.grid_size %>×<%= puzzle.grid_size %> grid
+              </span>
+              <span class="flex items-center">
+                <svg class="w-4 h-4 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Rails Topic
+              </span>
+            </div>
+
+            <%= link_to puzzle_path(puzzle),
+                class: "w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200" do %>
+              <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+              Start Puzzle
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center mt-12">
+      <p class="text-gray-500">
+        More puzzles coming soon! Check back regularly for new challenges.
+      </p>
+    </div>
+  </div>
+</div>

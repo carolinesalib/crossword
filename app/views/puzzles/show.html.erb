@@ -1,0 +1,198 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <%= link_to puzzles_path, class: "inline-flex items-center text-indigo-600 hover:text-indigo-800 transition-colors duration-200" do %>
+          <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          Back to Puzzles
+        <% end %>
+
+        <div class="flex items-center space-x-4">
+          <button id="check-answers" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200">
+            <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Check Answers
+          </button>
+          <button id="clear-grid" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+            <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+            </svg>
+            Clear Grid
+          </button>
+        </div>
+      </div>
+
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">
+        <%= @puzzle.title %>
+      </h1>
+      <p class="text-lg text-gray-600">
+        <%= @puzzle.description %>
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Crossword Grid -->
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Crossword Grid</h2>
+
+          <div class="flex justify-center">
+            <div id="crossword-grid" class="grid gap-0 border-2 border-gray-300"
+                 style="grid-template-columns: repeat(<%= @puzzle.grid_size %>, 1fr);">
+              <% (0...@puzzle.grid_size).each do |row| %>
+                <% (0...@puzzle.grid_size).each do |col| %>
+                  <%
+                    # Find if there's a clue that starts at this position
+                    clue = @puzzle.clues.find { |c| c.row == row && c.col == col }
+                    cell_class = "w-12 h-12 border border-gray-300 flex items-center justify-center relative"
+                    cell_class += " bg-gray-100" if clue.nil?
+                  %>
+                  <div class="<%= cell_class %>" data-row="<%= row %>" data-col="<%= col %>">
+                    <% if clue %>
+                      <span class="absolute top-0 left-0 text-xs text-gray-500 px-1">
+                        <%= clue.number %>
+                      </span>
+                      <input type="text"
+                             class="w-full h-full text-center text-lg font-medium border-none focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-transparent"
+                             maxlength="1"
+                             data-clue-id="<%= clue.id %>"
+                             data-direction="<%= clue.direction %>"
+                             data-answer="<%= clue.answer %>"
+                             data-clue-number="<%= clue.number %>">
+                    <% end %>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Clues Panel -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Clues</h2>
+
+          <!-- Across Clues -->
+          <div class="mb-6">
+            <h3 class="text-lg font-medium text-gray-900 mb-3 flex items-center">
+              <svg class="w-5 h-5 mr-2 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
+              </svg>
+              Across
+            </h3>
+            <div class="space-y-3">
+              <% @puzzle.across_clues.each do |clue| %>
+                <div class="p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors duration-200 cursor-pointer clue-item"
+                     data-clue-id="<%= clue.id %>" data-direction="across">
+                  <div class="flex items-start">
+                    <span class="font-semibold text-blue-800 mr-3"><%= clue.number %>.</span>
+                    <p class="text-gray-700 text-sm"><%= clue.clue_text %></p>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Down Clues -->
+          <div>
+            <h3 class="text-lg font-medium text-gray-900 mb-3 flex items-center">
+              <svg class="w-5 h-5 mr-2 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+              </svg>
+              Down
+            </h3>
+            <div class="space-y-3">
+              <% @puzzle.down_clues.each do |clue| %>
+                <div class="p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors duration-200 cursor-pointer clue-item"
+                     data-clue-id="<%= clue.id %>" data-direction="down">
+                  <div class="flex items-start">
+                    <span class="font-semibold text-green-800 mr-3"><%= clue.number %>.</span>
+                    <p class="text-gray-700 text-sm"><%= clue.clue_text %></p>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const grid = document.getElementById('crossword-grid');
+  const inputs = grid.querySelectorAll('input');
+  const clueItems = document.querySelectorAll('.clue-item');
+  const checkButton = document.getElementById('check-answers');
+  const clearButton = document.getElementById('clear-grid');
+
+  // Handle input navigation
+  inputs.forEach(input => {
+    input.addEventListener('input', function(e) {
+      const value = e.target.value.toUpperCase();
+      e.target.value = value;
+
+      if (value && e.target.nextElementSibling) {
+        e.target.nextElementSibling.focus();
+      }
+    });
+
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Backspace' && !e.target.value && e.target.previousElementSibling) {
+        e.target.previousElementSibling.focus();
+      }
+    });
+  });
+
+  // Highlight clue when clicked
+  clueItems.forEach(item => {
+    item.addEventListener('click', function() {
+      const clueId = this.dataset.clueId;
+      const direction = this.dataset.direction;
+
+      // Find and focus the first input for this clue
+      const firstInput = grid.querySelector(`input[data-clue-id="${clueId}"]`);
+      if (firstInput) {
+        firstInput.focus();
+      }
+    });
+  });
+
+  // Check answers
+  checkButton.addEventListener('click', function() {
+    let allCorrect = true;
+
+    inputs.forEach(input => {
+      const userAnswer = input.value.toUpperCase();
+      const correctAnswer = input.dataset.answer.toUpperCase();
+
+      if (userAnswer === correctAnswer) {
+        input.classList.add('bg-green-100', 'text-green-800');
+        input.classList.remove('bg-red-100', 'text-red-800');
+      } else if (userAnswer) {
+        input.classList.add('bg-red-100', 'text-red-800');
+        input.classList.remove('bg-green-100', 'text-green-800');
+        allCorrect = false;
+      }
+    });
+
+    if (allCorrect) {
+      alert('🎉 Congratulations! You solved the puzzle!');
+    }
+  });
+
+  // Clear grid
+  clearButton.addEventListener('click', function() {
+    inputs.forEach(input => {
+      input.value = '';
+      input.classList.remove('bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+    });
+  });
+});
+</script>

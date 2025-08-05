@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  puzzle: one
+  number: 1
+  direction: MyString
+  row: 1
+  col: 1
+  answer: MyString
+  clue_text: MyText
+
+two:
+  puzzle: two
+  number: 1
+  direction: MyString
+  row: 1
+  col: 1
+  answer: MyString
+  clue_text: MyText

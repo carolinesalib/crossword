@@ -1,0 +1,237 @@
+[
+  {
+    "title": "Rails Generators",
+    "description": "Learn about common Rails generators and related commands.",
+    "grid_size": 10,
+    "clues": [
+      {
+        "number": 1,
+        "direction": "across",
+        "row": 0,
+        "col": 0,
+        "answer": "generator",
+        "clue_text": "Rails command used to scaffold code"
+      },
+      {
+        "number": 2,
+        "direction": "down",
+        "row": 0,
+        "col": 2,
+        "answer": "scaffold",
+        "clue_text": "One word that generates models, views, and controllers at once"
+      },
+      {
+        "number": 3,
+        "direction": "across",
+        "row": 2,
+        "col": 0,
+        "answer": "migration",
+        "clue_text": "File that changes your database schema"
+      },
+      {
+        "number": 4,
+        "direction": "down",
+        "row": 1,
+        "col": 5,
+        "answer": "destroy",
+        "clue_text": "Command to undo a generator"
+      },
+      {
+        "number": 5,
+        "direction": "across",
+        "row": 4,
+        "col": 0,
+        "answer": "controller",
+        "clue_text": "Component that handles web requests"
+      }
+    ]
+  },
+  {
+    "title": "Active Record Basics",
+    "description": "Rails ORM essentials like associations, validations, and more.",
+    "grid_size": 12,
+    "clues": [
+      {
+        "number": 1,
+        "direction": "across",
+        "row": 0,
+        "col": 0,
+        "answer": "association",
+        "clue_text": "Links one model to another"
+      },
+      {
+        "number": 2,
+        "direction": "down",
+        "row": 0,
+        "col": 2,
+        "answer": "belongs_to",
+        "clue_text": "Association that indicates ownership"
+      },
+      {
+        "number": 3,
+        "direction": "across",
+        "row": 2,
+        "col": 0,
+        "answer": "has_many",
+        "clue_text": "Association for one-to-many relationships"
+      },
+      {
+        "number": 4,
+        "direction": "down",
+        "row": 1,
+        "col": 6,
+        "answer": "callback",
+        "clue_text": "Trigger that runs before or after a record is saved"
+      },
+      {
+        "number": 5,
+        "direction": "across",
+        "row": 4,
+        "col": 0,
+        "answer": "validation",
+        "clue_text": "Ensures a model meets certain criteria before saving"
+      }
+    ]
+  },
+  {
+    "title": "Enumerable Methods",
+    "description": "Enumerable and Enumerator methods used often in Ruby and Rails.",
+    "grid_size": 10,
+    "clues": [
+      {
+        "number": 1,
+        "direction": "across",
+        "row": 0,
+        "col": 0,
+        "answer": "each",
+        "clue_text": "Basic method for iteration"
+      },
+      {
+        "number": 2,
+        "direction": "down",
+        "row": 0,
+        "col": 2,
+        "answer": "map",
+        "clue_text": "Returns a new array based on a transformation"
+      },
+      {
+        "number": 3,
+        "direction": "across",
+        "row": 2,
+        "col": 0,
+        "answer": "select",
+        "clue_text": "Returns elements matching a condition"
+      },
+      {
+        "number": 4,
+        "direction": "down",
+        "row": 1,
+        "col": 5,
+        "answer": "reject",
+        "clue_text": "Opposite of `select`"
+      },
+      {
+        "number": 5,
+        "direction": "across",
+        "row": 4,
+        "col": 0,
+        "answer": "reduce",
+        "clue_text": "Combines elements into a single value"
+      }
+    ]
+  },
+  {
+    "title": "Routing and Requests",
+    "description": "Understanding routes, controllers, and HTTP verbs in Rails.",
+    "grid_size": 12,
+    "clues": [
+      {
+        "number": 1,
+        "direction": "across",
+        "row": 0,
+        "col": 0,
+        "answer": "routes",
+        "clue_text": "File where URL patterns are defined"
+      },
+      {
+        "number": 2,
+        "direction": "down",
+        "row": 0,
+        "col": 2,
+        "answer": "resources",
+        "clue_text": "Rails macro to define RESTful routes"
+      },
+      {
+        "number": 3,
+        "direction": "across",
+        "row": 2,
+        "col": 0,
+        "answer": "params",
+        "clue_text": "Hash that holds data from URL or form"
+      },
+      {
+        "number": 4,
+        "direction": "down",
+        "row": 1,
+        "col": 5,
+        "answer": "redirect",
+        "clue_text": "Sends the user to a new URL"
+      },
+      {
+        "number": 5,
+        "direction": "across",
+        "row": 4,
+        "col": 0,
+        "answer": "status",
+        "clue_text": "HTTP code returned with the response"
+      }
+    ]
+  },
+  {
+    "title": "Rails Configuration",
+    "description": "Dig into environments, boot settings, and security features.",
+    "grid_size": 12,
+    "clues": [
+      {
+        "number": 1,
+        "direction": "across",
+        "row": 0,
+        "col": 0,
+        "answer": "environment",
+        "clue_text": "dev, test, or production, for example"
+      },
+      {
+        "number": 2,
+        "direction": "down",
+        "row": 0,
+        "col": 2,
+        "answer": "credentials",
+        "clue_text": "Encrypted file storing secrets"
+      },
+      {
+        "number": 3,
+        "direction": "across",
+        "row": 2,
+        "col": 0,
+        "answer": "config",
+        "clue_text": "Folder holding app settings"
+      },
+      {
+        "number": 4,
+        "direction": "down",
+        "row": 1,
+        "col": 5,
+        "answer": "eagerload",
+        "clue_text": "Loads all classes at boot"
+      },
+      {
+        "number": 5,
+        "direction": "across",
+        "row": 4,
+        "col": 0,
+        "answer": "zeitwerk",
+        "clue_text": "Code loader used by modern Rails"
+      }
+    ]
+  }
+]
