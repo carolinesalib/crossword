@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  description: MyText
-  grid_size: 1
+  title: "Simple Test Crossword"
+  description: "A 5x5 crossword puzzle for testing functionality"
+  grid_size: 5
 
 two:
-  title: MyString
-  description: MyText
-  grid_size: 1
+  title: "Another Test Puzzle"
+  description: "A different test puzzle for variety"
+  grid_size: 4
