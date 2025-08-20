@@ -3,17 +3,17 @@
 one:
   puzzle: one
   number: 1
-  direction: MyString
-  row: 1
-  col: 1
-  answer: MyString
-  clue_text: MyText
+  direction: "across"
+  row: 0
+  col: 0
+  answer: "HELLO"
+  clue_text: "A greeting"
 
 two:
-  puzzle: two
-  number: 1
-  direction: MyString
-  row: 1
-  col: 1
-  answer: MyString
-  clue_text: MyText
+  puzzle: one
+  number: 2
+  direction: "down"
+  row: 0
+  col: 0
+  answer: "HAPPY"
+  clue_text: "Feeling good"
