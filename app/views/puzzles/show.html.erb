@@ -129,14 +129,17 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+// Function to initialize crossword functionality
+function initializeCrossword() {
   const grid = document.getElementById('crossword-grid');
+  if (!grid) return; // Exit if grid doesn't exist yet
+
   const inputs = grid.querySelectorAll('input');
   const clueItems = document.querySelectorAll('.clue-item');
   const checkButton = document.getElementById('check-answers');
   const clearButton = document.getElementById('clear-grid');
 
-      // Handle input navigation
+  // Handle input navigation
   inputs.forEach(input => {
     input.addEventListener('input', function(e) {
       const value = e.target.value.toUpperCase();
@@ -270,5 +273,9 @@ document.addEventListener('DOMContentLoaded', function() {
       input.classList.remove('bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
     });
   });
-});
+}
+
+// Initialize on both DOMContentLoaded and turbo:load events
+document.addEventListener('DOMContentLoaded', initializeCrossword);
+document.addEventListener('turbo:load', initializeCrossword);
 </script>
