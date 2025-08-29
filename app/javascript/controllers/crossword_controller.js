@@ -50,6 +50,8 @@ export default class extends Controller {
     const clueId = input.dataset.clueId
     const position = parseInt(input.dataset.position)
 
+    input.setSelectionRange(0, 1)
+
     // If clicking on a numbered input (position 0), set the current direction
     if (position === 0) {
       this.currentDirectionValue = direction
@@ -75,6 +77,7 @@ export default class extends Controller {
       if (nextInput) {
         console.log('Focusing next input:', nextInput)
         nextInput.focus()
+        nextInput.setSelectionRange(0, 1)
       } else {
         console.log('No next input found')
       }
