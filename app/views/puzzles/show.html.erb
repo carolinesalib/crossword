@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8" data-controller="crossword">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Header -->
     <div class="mb-8">
@@ -11,13 +11,13 @@
         <% end %>
 
         <div class="flex items-center space-x-4">
-          <button id="check-answers" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200">
+          <button data-action="click->crossword#checkAnswers" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200">
             <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
             Check Answers
           </button>
-          <button id="clear-grid" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+          <button data-action="click->crossword#clearGrid" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
             <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
             </svg>
@@ -40,39 +40,40 @@
         <div class="bg-white rounded-xl shadow-lg p-6">
           <h2 class="text-xl font-semibold text-gray-900 mb-4">Crossword Grid</h2>
 
-                      <div class="flex justify-center">
-              <div id="crossword-grid" class="grid gap-0 border-2 border-gray-300"
-                   style="grid-template-columns: repeat(<%= @puzzle.grid_size %>, 1fr);">
-                <% grid = generate_crossword_grid(@puzzle) %>
-                <% (0...@puzzle.grid_size).each do |row| %>
-                  <% (0...@puzzle.grid_size).each do |col| %>
-                    <% cell_data = grid[row][col] %>
-                    <div class="<%= cell_classes(row, col, cell_data) %>" data-row="<%= row %>" data-col="<%= col %>">
-                      <% if cell_data && !cell_data.empty? %>
-                        <% primary_clue = get_primary_clue(cell_data) %>
-                        <% all_clues = get_all_clues(cell_data) %>
+          <div class="flex justify-center">
+            <div id="crossword-grid" data-crossword-target="grid" class="grid gap-0 border-2 border-gray-300"
+                 style="grid-template-columns: repeat(<%= @puzzle.grid_size %>, 1fr);">
+              <% grid = generate_crossword_grid(@puzzle) %>
+              <% (0...@puzzle.grid_size).each do |row| %>
+                <% (0...@puzzle.grid_size).each do |col| %>
+                  <% cell_data = grid[row][col] %>
+                  <div class="<%= cell_classes(row, col, cell_data) %>" data-row="<%= row %>" data-col="<%= col %>">
+                    <% if cell_data && !cell_data.empty? %>
+                      <% primary_clue = get_primary_clue(cell_data) %>
+                      <% all_clues = get_all_clues(cell_data) %>
 
-                        <% if primary_clue[:is_start] %>
-                          <span class="absolute top-0 left-0 text-xs text-gray-500 px-1">
-                            <%= primary_clue[:clue_number] %>
-                          </span>
-                        <% end %>
-
-                        <input type="text"
-                               class="w-full h-full text-center text-lg font-medium border-none focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-transparent"
-                               maxlength="1"
-                               data-clue-id="<%= primary_clue[:clue_id] %>"
-                               data-direction="<%= primary_clue[:direction] %>"
-                               data-answer="<%= primary_clue[:answer] %>"
-                               data-clue-number="<%= primary_clue[:clue_number] %>"
-                               data-position="<%= primary_clue[:position] %>"
-                               data-all-clues="<%= all_clues.map { |c| "#{c[:clue_id]}:#{c[:direction]}:#{c[:position]}" }.join(',') %>">
+                      <% if primary_clue[:is_start] %>
+                        <span class="absolute top-0 left-0 text-xs text-gray-500 px-1">
+                          <%= primary_clue[:clue_number] %>
+                        </span>
                       <% end %>
-                    </div>
-                  <% end %>
+
+                      <input type="text"
+                             class="w-full h-full text-center text-lg font-medium border-none focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-transparent"
+                             maxlength="1"
+                             data-crossword-target="input"
+                             data-clue-id="<%= primary_clue[:clue_id] %>"
+                             data-direction="<%= primary_clue[:direction] %>"
+                             data-answer="<%= primary_clue[:answer] %>"
+                             data-clue-number="<%= primary_clue[:clue_number] %>"
+                             data-position="<%= primary_clue[:position] %>"
+                             data-all-clues="<%= all_clues.map { |c| "#{c[:clue_id]}:#{c[:direction]}:#{c[:position]}" }.join(',') %>">
+                    <% end %>
+                  </div>
                 <% end %>
-              </div>
+              <% end %>
             </div>
+          </div>
         </div>
       </div>
 
@@ -92,6 +93,7 @@
             <div class="space-y-3">
               <% @puzzle.across_clues.each do |clue| %>
                 <div class="p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors duration-200 cursor-pointer clue-item"
+                     data-crossword-target="clueItem"
                      data-clue-id="<%= clue.id %>" data-direction="across">
                   <div class="flex items-start">
                     <span class="font-semibold text-blue-800 mr-3"><%= clue.number %>.</span>
@@ -113,6 +115,7 @@
             <div class="space-y-3">
               <% @puzzle.down_clues.each do |clue| %>
                 <div class="p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors duration-200 cursor-pointer clue-item"
+                     data-crossword-target="clueItem"
                      data-clue-id="<%= clue.id %>" data-direction="down">
                   <div class="flex items-start">
                     <span class="font-semibold text-green-800 mr-3"><%= clue.number %>.</span>
@@ -127,155 +130,3 @@
     </div>
   </div>
 </div>
-
-<script>
-// Function to initialize crossword functionality
-function initializeCrossword() {
-  const grid = document.getElementById('crossword-grid');
-  if (!grid) return; // Exit if grid doesn't exist yet
-
-  const inputs = grid.querySelectorAll('input');
-  const clueItems = document.querySelectorAll('.clue-item');
-  const checkButton = document.getElementById('check-answers');
-  const clearButton = document.getElementById('clear-grid');
-
-  // Handle input navigation
-  inputs.forEach(input => {
-    input.addEventListener('input', function(e) {
-      const value = e.target.value.toUpperCase();
-      e.target.value = value;
-
-      // Update all intersecting clues with the same letter
-      updateIntersectingClues(input, value);
-
-      // Find next input in the same direction
-      if (value) {
-        const nextInput = findNextInput(input);
-        if (nextInput) {
-          nextInput.focus();
-        }
-      }
-    });
-
-    input.addEventListener('keydown', function(e) {
-      if (e.key === 'Backspace' && !e.target.value) {
-        const prevInput = findPreviousInput(input);
-        if (prevInput) {
-          prevInput.focus();
-        }
-      }
-    });
-  });
-
-  // Function to update all intersecting clues with the same letter
-  function updateIntersectingClues(input, value) {
-    const allCluesData = input.dataset.allClues;
-    if (!allCluesData) return;
-
-    const clues = allCluesData.split(',');
-    clues.forEach(clueData => {
-      const [clueId, direction, position] = clueData.split(':');
-
-      // Find all inputs that belong to this clue and position
-      const intersectingInputs = grid.querySelectorAll(`input[data-clue-id="${clueId}"][data-position="${position}"]`);
-      intersectingInputs.forEach(intersectingInput => {
-        if (intersectingInput !== input) {
-          intersectingInput.value = value;
-        }
-      });
-    });
-  }
-
-  // Helper function to find next input in the same direction
-  function findNextInput(currentInput) {
-    const direction = currentInput.dataset.direction;
-    const clueId = currentInput.dataset.clueId;
-    const currentPosition = parseInt(currentInput.dataset.position);
-    const answerLength = currentInput.dataset.answer.length;
-
-    if (currentPosition < answerLength - 1) {
-      // Find input with same clue ID and next position
-      return grid.querySelector(`input[data-clue-id="${clueId}"][data-position="${currentPosition + 1}"]`);
-    }
-    return null;
-  }
-
-  // Helper function to find previous input in the same direction
-  function findPreviousInput(currentInput) {
-    const direction = currentInput.dataset.direction;
-    const clueId = currentInput.dataset.clueId;
-    const currentPosition = parseInt(currentInput.dataset.position);
-
-    if (currentPosition > 0) {
-      // Find input with same clue ID and previous position
-      return grid.querySelector(`input[data-clue-id="${clueId}"][data-position="${currentPosition - 1}"]`);
-    }
-    return null;
-  }
-
-    // Highlight clue when clicked
-  clueItems.forEach(item => {
-    item.addEventListener('click', function() {
-      const clueId = this.dataset.clueId;
-      const direction = this.dataset.direction;
-
-      // Find and focus the first input for this clue (position 0)
-      const firstInput = grid.querySelector(`input[data-clue-id="${clueId}"][data-position="0"]`);
-      if (firstInput) {
-        firstInput.focus();
-      }
-    });
-  });
-
-    // Check answers
-  checkButton.addEventListener('click', function() {
-    let allCorrect = true;
-
-    // Group inputs by clue to check each word
-    const clueGroups = {};
-    inputs.forEach(input => {
-      const clueId = input.dataset.clueId;
-      if (!clueGroups[clueId]) {
-        clueGroups[clueId] = [];
-      }
-      clueGroups[clueId].push(input);
-    });
-
-    // Check each clue
-    Object.keys(clueGroups).forEach(clueId => {
-      const clueInputs = clueGroups[clueId].sort((a, b) => parseInt(a.dataset.position) - parseInt(b.dataset.position));
-      const userWord = clueInputs.map(input => input.value.toUpperCase()).join('');
-      const correctWord = clueInputs[0].dataset.answer.toUpperCase();
-
-      if (userWord === correctWord) {
-        clueInputs.forEach(input => {
-          input.classList.add('bg-green-100', 'text-green-800');
-          input.classList.remove('bg-red-100', 'text-red-800');
-        });
-      } else if (userWord.length === correctWord.length) {
-        clueInputs.forEach(input => {
-          input.classList.add('bg-red-100', 'text-red-800');
-          input.classList.remove('bg-green-100', 'text-green-800');
-        });
-        allCorrect = false;
-      }
-    });
-
-    if (allCorrect) {
-      alert('🎉 Congratulations! You solved the puzzle!');
-    }
-  });
-
-  // Clear grid
-  clearButton.addEventListener('click', function() {
-    inputs.forEach(input => {
-      input.value = '';
-      input.classList.remove('bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
-    });
-  });
-}
-
-// Initialize on both DOMContentLoaded and turbo:load events
-document.addEventListener('DOMContentLoaded', initializeCrossword);
-document.addEventListener('turbo:load', initializeCrossword);
-</script>
