@@ -67,7 +67,10 @@
                              data-answer="<%= primary_clue[:answer] %>"
                              data-clue-number="<%= primary_clue[:clue_number] %>"
                              data-position="<%= primary_clue[:position] %>"
-                             data-all-clues="<%= all_clues.map { |c| "#{c[:clue_id]}:#{c[:direction]}:#{c[:position]}" }.join(',') %>">
+                             data-all-clues="<%= all_clues.map { |c| "#{c[:clue_id]}:#{c[:direction]}:#{c[:position]}" }.join(',') %>"
+                             <%= all_clues.map { |clue| "data-#{clue[:direction]}-clue-id=#{clue[:clue_id]}" }.join(" ") %>
+                             <%= all_clues.map { |clue| "data-#{clue[:direction]}-position=#{clue[:position]}" }.join(" ") %>
+                      >
                     <% end %>
                   </div>
                 <% end %>

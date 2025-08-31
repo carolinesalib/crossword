@@ -130,16 +130,16 @@ export default class extends Controller {
     // Use the current direction if set, otherwise fall back to the input's own direction
     const direction = this.currentDirectionValue || currentInput.dataset.direction
     const clueId = this.currentClueIdValue || currentInput.dataset.clueId
-    const currentPosition = parseInt(currentInput.dataset.position)
+    const currentPosition = parseInt(currentInput.dataset[`${direction}Position`])
 
-    // Get the answer length from the current clue
-    const currentClueInputs = this.gridTarget.querySelectorAll(`input[data-clue-id="${clueId}"]`)
+    const currentClueInputs = this.gridTarget.querySelectorAll(`input[data-${direction}-clue-id="${clueId}"]`)
+
     const answerLength = currentClueInputs.length
 
     if (currentPosition < answerLength - 1) {
-      // Find input with same clue ID and next position
-      return this.gridTarget.querySelector(`input[data-clue-id="${clueId}"][data-position="${currentPosition + 1}"]`)
+      return currentClueInputs[currentPosition + 1]
     }
+
     return null
   }
 
