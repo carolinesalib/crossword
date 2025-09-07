@@ -43,7 +43,7 @@ class CrosswordFunctionalityTest < ApplicationSystemTestCase
   def teardown
     if ENV["VISIBLE_TESTS"]
       puts "✅ Test finished: #{@current_test_name}"
-      slow_down(2) # Brief pause to see the final state
+      # slow_down(2) # Brief pause to see the final state
     end
   end
 
@@ -91,7 +91,7 @@ class CrosswordFunctionalityTest < ApplicationSystemTestCase
     (0..4).each do |position|
       input = find("input[data-clue-id='#{@across_clue.id}'][data-position='#{position}']")
       input.fill_in with: "HELLO"[position]
-      slow_down(0.5) # Longer delay between letters to see each one
+      # slow_down(0.5) # Longer delay between letters to see each one
     end
 
     # Verify all cells have correct letters
@@ -101,21 +101,22 @@ class CrosswordFunctionalityTest < ApplicationSystemTestCase
     end
   end
 
-  # test "user can complete a word down" do
-  #   visit puzzle_path(@puzzle)
+  test "user can complete a word down" do
+    visit puzzle_path(@puzzle)
 
-  #   # Type "HAPPY" down
-  #   (0..4).each do |position|
-  #     input = find("input[data-clue-id='#{@down_clue.id}'][data-position='#{position}']")
-  #     input.fill_in with: "HAPPY"[position]
-  #   end
+    # Type "HAPPY" down
+    (0..4).each do |position|
+      input = find("input[data-down-clue-id='#{@down_clue.id}'][data-down-position='#{position}']")
+      input.fill_in with: "HAPPY"[position]
+      # slow_down(0.5)
+    end
 
-  #   # Verify all cells have correct letters
-  #   (0..4).each do |position|
-  #     input = find("input[data-clue-id='#{@down_clue.id}'][data-position='#{position}']")
-  #     assert_equal "HAPPY"[position], input.value
-  #   end
-  # end
+    # Verify all cells have correct letters
+    (0..4).each do |position|
+      input = find("input[data-down-clue-id='#{@down_clue.id}'][data-down-position='#{position}']")
+      assert_equal "HAPPY"[position], input.value
+    end
+  end
 
   # test "intersecting letters update both directions" do
   #   visit puzzle_path(@puzzle)
